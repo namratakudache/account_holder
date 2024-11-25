@@ -1,0 +1,64 @@
+.account-info {
+  width: 360px;
+  height: 100vh;
+  /* border: 1px solid red; */
+  margin-left: 290px;
+  display: flex;
+  flex-direction: column; /* Stack sections vertically */
+}
+p {
+  margin-left: 250px;
+}
+h3 {
+  margin-left: 20px;
+}
+.account-info-section:nth-child(1) {
+  width: 360px;
+  background-color: #323e4c;
+  color: rgb(235, 232, 232);
+  height: 150px;
+}
+
+.account-info-section:nth-child(2) {
+  width: 360px;
+  color: rgb(235, 232, 232);
+  background-color: #435366;
+  height: 120px;
+}
+
+.account-info-section:nth-child(3) {
+  width: 340px;
+  color: rgb(235, 232, 232);
+  height: 100vh; /* Full height */
+  background-color: #4f6176;
+  overflow-y: auto; /* Enables vertical scrolling */
+  padding: 10px; /* Optional: padding for better content spacing */
+}
+
+/* Styling for the extra info section */
+.extra-info {
+  margin-top: 10px;
+}
+
+.extra-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  height: 100px;
+}
+
+.extra-info-item strong {
+  margin-top: 10px;
+  display: block; /* Make label appear on top */
+}
+
+.extra-info-item span {
+  font-weight: normal;
+}
+
+/* Optional: Style for the date */
+.extra-info-item .date {
+  font-size: 0.9em;
+  color: #bbb;
+}
