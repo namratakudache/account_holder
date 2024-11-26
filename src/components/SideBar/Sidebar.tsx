@@ -14,14 +14,16 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+      <div className={`sidebar ${isOpen ? "open" : "sidebar-collapased"}`}>
         <ul className="sidebar-list">
           {/* CustomerApp Label */}
-          <li className="sidebar-item customer-app-label">
-            {/* <i className="fa-sharp fa-solid fa-chart-simple"></i> */}
+          {isOpen ? (
+            <li className="sidebar-item customer-app-label">
+              {/* <i className="fa-sharp fa-solid fa-chart-simple"></i> */}
 
-            <span className="menu-header-label-cust">CustomerApp</span>
-          </li>
+              <span className="menu-header-label-cust">CustomerApp</span>
+            </li>
+          ) : null}
 
           {/* Sidebar Links */}
           <li className={`sidebar-item ${!isOpen ? "hidden" : ""}`}>
@@ -48,6 +50,7 @@ const Sidebar: React.FC = () => {
               {isOpen && "Cards"}
             </Link>
           </li>
+          <p className="version">v4.1.1</p>
 
           {/* Sidebar Toggle Button */}
           <button className="sidebar-toggle" onClick={toggleSidebar}>

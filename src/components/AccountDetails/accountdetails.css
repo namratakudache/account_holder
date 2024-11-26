@@ -1,59 +1,55 @@
-/* src/components/AccountDetails/accountDetails.css */
 .account-details {
   background-color: #3cb4e0;
-  padding: 10px;
-  margin-top: 50px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 200px;
-  width: 400px;
-  margin-left: 850px;
+  height: 180px;
+  width: 620px;
+  /* height: 800px; */
   color: aliceblue;
-}
-
-.details-header h2 {
-  /* border: 1px solid red; */
-  /* margin-left: 10px; */
-  /* margin-bottom: 15px; */
-  /* border: 1px solid black; */
-}
-
-.details-content {
   display: flex;
   flex-direction: column;
-  /* border: 1px solid red; */
-  margin-top: 35px;
-  width: 450px;
-}
-
-.details-row {
-  /* border: 1px solid red; */
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Makes columns equally spaced */
-  gap: 15px; /* Adds space between columns */
-  padding: 10px 0; /* Adds vertical padding */
-  border-bottom: 1px solid #e0e0e0; /* Divider between rows */
-}
-
-.details-row:last-child {
-  border-bottom: none; /* Removes bottom border for the last row */
+  justify-content: center; /* Vertically center the content */
+  align-items: center; /* Horizontally center the content */
+  text-align: center; /* Optional: Center text if necessary */
+  margin: 50px;
 }
 
 .details-col {
   display: flex;
   flex-direction: column;
-  /* border:1px solid red; */
 }
 
 .details-col h4 {
   margin-bottom: 5px;
-  font-size: 14px; /* Adjusted font size */
-  color: #555; /* Subtle color for the title */
+  font-size: 14px;
+  color: #555;
 }
 
 .details-col p {
-  font-size: 16px; /* Adjusted font size for better readability */
-  color: #333; /* Darker color for text */
+  justify-content: left;
+  font-size: 16px;
+  color: #333;
 }
-h2 {
-  /* border: 1px solid black; */
+
+.details-container {
+  display: flex;
+  border: 1px solid;
+  gap: 10px;
+  width: 100%;
+  color: #000;
+  margin-top: 40px;
+  height: 40%;
+  justify-content: space-between;
+  background-color: aliceblue;
+}
+.date {
+  color: #b8b6b6;
+  font-size: 20px;
+}
+p {
+  align-items: center;
+  margin-top: 20px;
+}
+.inr {
+  align-items: center;
+  margin: 10px;
 }

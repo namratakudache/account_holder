@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "lib": ["dom", "es2015", "esnext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true ,
     "jsx": "react",
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

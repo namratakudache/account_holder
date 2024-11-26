@@ -1,15 +1,13 @@
 /* Sidebar Styling */
 .sidebar {
-  width: 250px; /* Increased width for better visibility */
+  width: 200px;
   height: 100vh;
   background-color: #0b0b0b; /* Dark background color */
   padding: 20px;
-  position: fixed;
-  top: 60px; /* Ensure proper top positioning */
-  left: -250px; /* Initially hidden offscreen */
+  left: -250px;
   display: flex;
   flex-direction: column;
-  transition: left 0.3s ease; /* Smooth sliding effect */
+  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
 .sidebar.open {
@@ -31,7 +29,7 @@
   font-size: 18px; /* Custom font size */
   color: #ebeaf0; /* Custom text color */
   text-decoration: none;
-  padding: 10px 20px; /* Adjusted padding for more space */
+  /* padding: 10px 20px;  */
   display: flex;
   align-items: center;
   border-radius: 4px;
@@ -43,8 +41,8 @@
 }
 
 .icon {
-  margin-right: 15px; /* Increased space between icon and text */
-  font-size: 22px; /* Increased icon size for better visibility */
+  margin-right: 15px;
+  font-size: 22px;
 }
 
 /* Hide menu text when sidebar is closed */
@@ -92,13 +90,20 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 10; /* Ensure it's above the sidebar */
+  z-index: 10;
+  top: 20%;
+  margin-left: 20px;
 }
 
 .icon-chevron {
   width: 24px;
   height: 24px;
   transition: transform 0.3s ease;
+  margin-bottom: 500px;
+  border: 1px solid;
+  border-radius: 500px;
+  background-color: white;
+  border: none;
 }
 
 .icon-chevron.rotated {
@@ -113,16 +118,12 @@
   margin-left: 20px;
 }
 .sidebar-toggle {
-  background-color: white; /* Circle background color */
-  border: none; /* Remove border */
-  border-radius: 50%; /* Ensures a perfect circle */
-  width: 30px; /* Adjusted size for better appearance */
-  height: 30px; /* Adjusted size for better appearance */
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer; /* Adds a pointer for better UX */
-  position: absolute; /* Positioning to place it within the sidebar */
+  position: relative; /* Positioning to place it within the sidebar */
   left: 100%;
   transform: translateX(-50%); /* Centers the button accurately */
   top: 40%;
@@ -142,4 +143,15 @@
   color: #fff;
   height: 30px;
   transform: scale(1.2);
+}
+
+.sidebar-collapased {
+  width: 80px;
+}
+.version {
+  margin-top: 210%;
+  color: #878787;
+  /* font-width: 36px; */
+  border-top: 2px solid rgb(131, 129, 129);
+  /* border: 1px solid red; */
 }

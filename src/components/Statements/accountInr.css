@@ -1,0 +1,185 @@
+.horizontal-scroll-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 80%;
+  overflow: hidden;
+  position: relative;
+  margin: 20px;
+}
+
+/* Amount styling */
+.amount {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 5px;
+  width: 100%; /* Ensure amount takes up full width */
+  text-align: center; /* Center the text */
+  padding: 5px;
+  background-color: #f3f3f3; /* Slight background color */
+}
+
+/* Date styling */
+.date {
+  font-size: 16px;
+  color: gray;
+  margin-top: 15px;
+}
+
+/* Styling for the arrows */
+.scroll-arrow {
+  background-color: #ddd;
+  border: none;
+  padding: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+
+  position: absolute;
+}
+
+/* Left arrow specific styling */
+.left {
+  left: 10px;
+}
+
+/* Right arrow specific styling */
+.right {
+  right: 10px;
+}
+/* accountInr.css */
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+
+/* Horizontal Scroll Container */
+.horizontal-scroll-container {
+  display: flex;
+  align-items: center;
+
+  padding: 20px;
+  position: relative;
+}
+
+.scroll-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: scroll;
+  padding-bottom: 10px;
+}
+
+.scroll-item {
+  background-color: #fff;
+  padding: 10px 20px;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.scroll-item:hover {
+  /* transform: translateY(-5px); */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3a3a3a;
+}
+
+.date {
+  font-size: 14px;
+  color: #7a7a7a;
+  margin-top: 10px;
+}
+
+/* Scroll Arrows */
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 10;
+  width: 50px;
+}
+
+.left {
+  left: 10px;
+}
+
+.right {
+  right: 10px;
+}
+
+.scroll-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Loading & Error */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #007bff;
+}
+
+.error {
+  text-align: center;
+  font-size: 18px;
+  color: red;
+  margin-top: 20px;
+}
+
+/* Styling for transaction details */
+.transaction-details {
+  margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid red; */
+  width: 620px;
+  margin-left: 50px;
+}
+
+.transaction-list {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 2fr; /* Same column structure as the header */
+  gap: 20px;
+}
+
+.transaction-item {
+  display: contents; /* Allows grid layout for individual items */
+}
+
+.transaction-item span {
+  padding: 8px;
+  /* background-color: #efeeee; */
+
+  font-size: 14px;
+}
+
+.transaction-item strong {
+  font-weight: bold;
+}
+
+/* For small screens */
+@media (max-width: 768px) {
+  .transaction-header,
+  .transaction-list {
+    grid-template-columns: 1fr 1fr; /* Stack into two columns on smaller screens */
+  }
+}
