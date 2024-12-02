@@ -1,19 +1,19 @@
-// src/Routing/AppRoutes.tsx
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-
-import AccountINR from "../components/Statements/AccountINR";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../components/Login/login";
+import Home from "../components/Home/Home";
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      {/* Defining your routes for each service */}
-      <Route path="/" element={<Login />} /> {/* Default Route */}
-      {/* <Route path="/home" element={<Home />} />
-      <Route path="/statement" element={<Statement />} />
-      <Route path="/limits" element={<Limits />} />
-      <Route path="/cards" element={<Cards />} /> */}
+      {/* Always show Login component at the root path */}
+      <Route path="/" element={<Login />} />
+
+      {/* Show Home only if logged in */}
+      <Route
+        path="/home"
+        element={sessionStorage.getItem("authToken") ? <Home /> : <Navigate to="/" replace />}
+      />
     </Routes>
   );
 };

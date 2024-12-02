@@ -1,88 +1,133 @@
-// statementActions.ts
+// import { Dispatch } from "redux";
+// import { ApiResponse } from "../types/statementTypes"; // Import the ApiResponse type
 
-// Action Types
+// // Define the action types
+// export const FETCH_STATEMENTS_REQUEST = "FETCH_STATEMENTS_REQUEST";
+// export const FETCH_STATEMENTS_SUCCESS = "FETCH_STATEMENTS_SUCCESS";
+// export const FETCH_STATEMENTS_FAILURE = "FETCH_STATEMENTS_FAILURE";
+
+// // Define the action interfaces
+// interface FetchStatementsRequestAction {
+//   type: typeof FETCH_STATEMENTS_REQUEST;
+// }
+
+// interface FetchStatementsSuccessAction {
+//   type: typeof FETCH_STATEMENTS_SUCCESS;
+//   payload: ApiResponse; // Assuming your API response matches ApiResponse
+// }
+
+// interface FetchStatementsFailureAction {
+//   type: typeof FETCH_STATEMENTS_FAILURE;
+//   payload: string;
+// }
+
+// // Union type for the action creators
+// export type StatementActionTypes =
+//   | FetchStatementsRequestAction
+//   | FetchStatementsSuccessAction
+//   | FetchStatementsFailureAction;
+
+// // Define the thunk action
+// export const fetchStatements = () => {
+//   return async (dispatch: Dispatch<StatementActionTypes>) => {
+//     try {
+//       dispatch({ type: FETCH_STATEMENTS_REQUEST });
+
+//       const response = await fetch(
+//         "https://sandbox-apiconnect.42cards.in/pismo-api/statements/v1/accounts/103052861/statements"
+//       );
+//       const data: ApiResponse = await response.json();
+
+//       dispatch({
+//         type: FETCH_STATEMENTS_SUCCESS,
+//         payload: data,
+//       });
+//     } catch (error: any) {
+//       dispatch({
+//         type: FETCH_STATEMENTS_FAILURE,
+//         payload: error.message,
+//       });
+//     }
+//   };
+// };
+// export const fetchStatementsRequest = () => ({
+//   type: FETCH_STATEMENTS_REQUEST,
+// });
+
+// export const fetchStatementsSuccess = (data: any) => ({
+//   type: FETCH_STATEMENTS_SUCCESS,
+//   payload: data,
+// });
+
+// export const fetchStatementsFailure = (error: string) => ({
+//   type: FETCH_STATEMENTS_FAILURE,
+//   payload: error,
+// });
+import { Dispatch } from "redux";
+
+
+// Define the action types
 export const FETCH_STATEMENTS_REQUEST = "FETCH_STATEMENTS_REQUEST";
 export const FETCH_STATEMENTS_SUCCESS = "FETCH_STATEMENTS_SUCCESS";
 export const FETCH_STATEMENTS_FAILURE = "FETCH_STATEMENTS_FAILURE";
 
-interface FetchStatementsRequest {
+// Define the action interfaces
+interface FetchStatementsRequestAction {
   type: typeof FETCH_STATEMENTS_REQUEST;
 }
 
-interface FetchStatementsSuccess {
+interface FetchStatementsSuccessAction {
   type: typeof FETCH_STATEMENTS_SUCCESS;
-  payload: any[]; // Adjust the type as per your API response structure
+  payload: ApiResponse; // Assuming your API response matches ApiResponse
 }
 
-interface FetchStatementsFailure {
+interface FetchStatementsFailureAction {
   type: typeof FETCH_STATEMENTS_FAILURE;
   payload: string;
 }
 
-export type StatementActions =
-  | FetchStatementsRequest
-  | FetchStatementsSuccess
-  | FetchStatementsFailure;
+// Union type for the action creators
+export type StatementActionTypes =
+  | FetchStatementsRequestAction
+  | FetchStatementsSuccessAction
+  | FetchStatementsFailureAction;
 
-// Action Creators
-export const fetchStatementsRequest = (): FetchStatementsRequest => ({
+// Define the thunk action
+export const fetchStatements = () => {
+  return async (dispatch: Dispatch<StatementActionTypes>) => {
+    try {
+      dispatch({ type: FETCH_STATEMENTS_REQUEST });
+
+      const response = await fetch(
+        "https://sandbox-apiconnect.42cards.in/pismo-api/statements/v1/accounts/103052861/statements"
+      );
+      const data: ApiResponse = await response.json(); // The data will now match ApiResponse
+
+      // Dispatch the success action with the payload
+      dispatch({
+        type: FETCH_STATEMENTS_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: FETCH_STATEMENTS_FAILURE,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+// Action creators for request, success, and failure
+export const fetchStatementsRequest = () => ({
   type: FETCH_STATEMENTS_REQUEST,
 });
 
-export const fetchStatementsSuccess = (
-  statements: any[]
-): FetchStatementsSuccess => ({
+export const fetchStatementsSuccess = (data: ApiResponse) => ({
   type: FETCH_STATEMENTS_SUCCESS,
-  payload: statements,
+  payload: data,
 });
 
-export const fetchStatementsFailure = (
-  error: string
-): FetchStatementsFailure => ({
+export const fetchStatementsFailure = (error: string) => ({
   type: FETCH_STATEMENTS_FAILURE,
   payload: error,
 });
-
-// Thunk Action Creator (for async API call)
-export const fetchAccountStatements =
-  (accountId: string) =>
-  async (dispatch: any): Promise<void> => {
-    dispatch(fetchStatementsRequest());
-
-    // Retrieve the token from session storage
-    const token = sessionStorage.getItem("authToken");
-
-    if (!token) {
-      dispatch(fetchStatementsFailure("User not authenticated. Please log in."));
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `https://sandbox-apiconnect.42cards.in/pismo-api/statements/v2/accounts/${accountId}/statements`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch account statements");
-      }
-
-      const result = await response.json();
-
-      const formattedData = result.items.map((item: any) => ({
-        financed_balance: item.financed_balance,
-        opening_date: item.cycle.opening_date,
-        closing_date: item.cycle.closing_date,
-      }));
-
-      dispatch(fetchStatementsSuccess(formattedData));
-    } catch (error: any) {
-      dispatch(fetchStatementsFailure(error.message || "Something went wrong"));
-    }
-  };

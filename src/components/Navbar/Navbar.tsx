@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
             aria-haspopup="true"
             aria-expanded={dropdownOpen ? "true" : "false"}
           >
-            {selectedOption || "Select an option"}{" "}
+            {selectedOption || ""}{" "}
             <i
               className="fa-solid fa-caret-down"
               style={{ color: "#ffffff" }}

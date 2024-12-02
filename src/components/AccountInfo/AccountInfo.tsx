@@ -1,85 +1,69 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import "./accountInfo.css";
 import { MdRefresh } from "react-icons/md";
+import {
+  fetchAccountInfoRequest,
+  fetchAccountInfoSuccess,
+  fetchAccountInfoFailure,
+} from "../../actions/accountActions";
+import "./accountInfo.css";
 
-interface TimelineItem {
-  type: string;
-  category: string;
-  timestamp: string; // Assuming it's an ISO string or timestamp
-}
+// Define the formatDate function as before
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
-    month: "short", // Use short month format (e.g., Nov)
-    day: "numeric", // Show only day number
+    month: "short",
+    day: "numeric",
   });
 };
 
-// Define types for the data
-interface AccountInfoResponse {
-  name: string;
-  available_limit: number;
-  items: Array<any>; // For event timeline data
-}
-
 const AccountInfo: React.FC = () => {
-  const [accountInfo, setAccountInfo] = useState<AccountInfoResponse | null>(
-    null
-  );
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const { accountInfo, loading, error } = useSelector(
+    (state: any) => state.account
+  ); // Access the Redux state
 
-  // Fetch the data from the API
   useEffect(() => {
+    const token = sessionStorage.getItem("authToken");
+    console.log("AccountInfotoken", token);
+
+    if (!token) {
+      dispatch(fetchAccountInfoFailure("No authentication token found."));
+      console.error("No authentication token found.");
+      return;
+    }
+
     const fetchAccountInfo = async () => {
-      setLoading(true); // Set loading to true before fetching data
-
+      dispatch(fetchAccountInfoRequest());
       try {
-        const token = sessionStorage.getItem("authToken");
-        if (!token) {
-          setError("No authentication token found.");
-          setLoading(false);
-          return;
-        }
-
-        // Fetch Account Info for name and available credit
         const accountResponse = await axios.get(
           "https://sandbox-apiconnect.42cards.in/pismo-api/accounts/v1/accounts/103052861?cb=1732106905298",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-
-        // Fetch Event Timeline Data
         const timelineResponse = await axios.get(
           "https://sandbox-apiconnect.42cards.in/pismo-api/events/v1/timeline?page=1&perPage=20",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-
-        // Assuming account response contains name and available credit,
-        // and event timeline response contains the items data
-        setAccountInfo({
-          name: accountResponse.data.name,
-          available_limit: accountResponse.data.available_limit,
-          items: timelineResponse.data.items || [], // event timeline data
-        });
-        setLoading(false); // Set loading to false after data is fetched
+        dispatch(
+          fetchAccountInfoSuccess({
+            name: accountResponse.data.name,
+            available_limit: accountResponse.data.available_limit,
+            items: timelineResponse.data.items || [],
+          })
+        );
       } catch (err) {
-        setError("Failed to fetch data. Please try again later.");
-        setLoading(false);
+        dispatch(
+          fetchAccountInfoFailure(
+            "Failed to fetch data. Please try again later."
+          )
+        );
+        console.error("Error fetching data: ", err);
       }
     };
 
     fetchAccountInfo();
-  }, []);
+  }, [dispatch]);
 
   // Render loading state or error message
   if (loading) {
@@ -91,15 +75,14 @@ const AccountInfo: React.FC = () => {
   }
 
   const getInitials = (name: string) => {
-    const nameParts = name.split(" "); // Split the name into words
-    const firstLetter = nameParts[0]?.charAt(0).toUpperCase(); // Get the first letter of the first name
-    const lastLetter = nameParts[nameParts.length - 1]?.charAt(0).toUpperCase(); // Get the first letter of the last name
-    return firstLetter + lastLetter; // Combine the initials
+    const nameParts = name.split(" ");
+    const firstLetter = nameParts[0]?.charAt(0).toUpperCase();
+    const lastLetter = nameParts[nameParts.length - 1]?.charAt(0).toUpperCase();
+    return firstLetter + lastLetter;
   };
 
   return (
     <div className="account-info">
-      {/* Display Name in first section */}
       {accountInfo && (
         <div className="account-info-section section-1">
           <h3 className="getInitial">{getInitials(accountInfo.name)}</h3>
@@ -107,7 +90,6 @@ const AccountInfo: React.FC = () => {
         </div>
       )}
 
-      {/* Display Available Credit in second section */}
       {accountInfo && (
         <div className="account-info-section section-2">
           <p>Available Credit: </p>
@@ -115,7 +97,6 @@ const AccountInfo: React.FC = () => {
         </div>
       )}
 
-      {/* Display Event Timeline in third section */}
       {accountInfo?.items && accountInfo.items.length > 0 ? (
         <div className="account-info-section section-3">
           <p className="refresh">
@@ -123,7 +104,6 @@ const AccountInfo: React.FC = () => {
           </p>
 
           {accountInfo.items.map((item: any, index: number) => {
-            // Ensure that the required fields exist before displaying
             if (item?.type && item?.category && item?.timestamp) {
               return (
                 <div key={index} className="item-details">

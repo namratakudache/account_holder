@@ -1,10 +1,10 @@
 // programsReducer.ts
-import { AnyAction } from 'redux';
+import { AnyAction } from "redux";
 import {
   FETCH_PROGRAMS_REQUEST,
   FETCH_PROGRAMS_SUCCESS,
   FETCH_PROGRAMS_FAILURE,
-} from '../actions/actionTypes';
+} from "../types/actionTypes";
 
 interface ProgramsState {
   data: any[]; // Array of program data
@@ -18,7 +18,10 @@ const initialState: ProgramsState = {
   error: null,
 };
 
-const programsReducer = (state = initialState, action: AnyAction): ProgramsState => {
+const programsReducer = (
+  state = initialState,
+  action: AnyAction
+): ProgramsState => {
   switch (action.type) {
     case FETCH_PROGRAMS_REQUEST:
       return { ...state, loading: true, error: null };
