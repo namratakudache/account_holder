@@ -91,7 +91,7 @@ const Statements: React.FC = () => {
       return;
     }
 
-    const accountId = 103052861; // Update with your actual account ID
+    const accountId = 103052861; 
     fetchStatementsForAccount(accountId);
   }, [dispatch]);
 
@@ -103,7 +103,7 @@ const Statements: React.FC = () => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" }); // Short month name (e.g., "Oct")
+    const month = date.toLocaleString("default", { month: "short" }); 
     return `${day} ${month}`;
   };
 
@@ -147,7 +147,7 @@ const Statements: React.FC = () => {
                 </div>
               );
             }
-            return null; // No latest statement found for this year
+            return null; 
           })}
       </div>
 
