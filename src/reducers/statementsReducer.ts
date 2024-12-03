@@ -1,49 +1,79 @@
+// import {
+//   StatementActionTypes,
+//   FETCH_STATEMENTS_REQUEST,
+//   FETCH_STATEMENTS_SUCCESS,
+//   FETCH_STATEMENTS_FAILURE,
+// } from "../actions/statementActions";
 
-import { 
-  StatementActionTypes, 
-  FETCH_STATEMENTS_REQUEST, 
-  FETCH_STATEMENTS_SUCCESS, 
-  FETCH_STATEMENTS_FAILURE 
-} from '../actions/statementActions';
+// // Define the initial state type
+// interface State {
+//   data: ApiResponse | null; // The data is nullable until fetched
+//   loading: boolean; // Indicates if the API call is in progress
+//   error: string | null; // Holds the error message if the API call fails
+// }
 
-// Define the initial state type
-interface State {
-  data: ApiResponse | null; // The data is nullable until fetched
-  loading: boolean;         // Indicates if the API call is in progress
-  error: string | null;     // Holds the error message if the API call fails
-}
+// // Initial state to match the State type
+// const initialState: State = {
+//   data: null, // Data starts as null until fetched
+//   loading: false, // Initially not loading
+//   error: null, // No errors initially
+// };
 
-// Initial state to match the State type
-const initialState: State = {
-  data: null,  // Data starts as null until fetched
-  loading: false, // Initially not loading
-  error: null,    // No errors initially
+// // Reducer to handle state changes
+// const statementReducer = (
+//   state = initialState,
+//   action: StatementActionTypes
+// ): State => {
+//   switch (action.type) {
+//     case FETCH_STATEMENTS_REQUEST:
+//       return {
+//         ...state,
+//         loading: true,
+//         error: null,
+//       };
+//     case FETCH_STATEMENTS_SUCCESS:
+//       // Ensure that you're not mutating the state directly
+//       return {
+//         ...state,
+//         loading: false,
+//         data: action.payload ? { ...action.payload } : null, // Shallow copy to avoid mutation
+//       };
+//     case FETCH_STATEMENTS_FAILURE:
+//       return {
+//         ...state,
+//         loading: false,
+//         error: action.payload,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// export default statementReducer;
+// statementsReducer.ts
+// statementsReducer.ts
+import {
+  FETCH_STATEMENTS_REQUEST,
+  FETCH_STATEMENTS_SUCCESS,
+  FETCH_STATEMENTS_FAILURE,
+} from "../actions/statementActions";
+
+const initialState = {
+  loading: false,
+  data: [],
+  error: "",
 };
 
-// Reducer to handle state changes
-const statementReducer = (state = initialState, action: StatementActionTypes): State => {
+export const statementsReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case FETCH_STATEMENTS_REQUEST:
-      return {
-        ...state,
-        loading: true,  // Set loading to true when the request starts
-        error: null,    // Clear any previous errors
-      };
+      return { ...state, loading: true };
     case FETCH_STATEMENTS_SUCCESS:
-      return {
-        ...state,
-        loading: false, // Request completed
-        data: action.payload, // Update data with API response
-      };
+      return { ...state, loading: false, data: action.payload };
     case FETCH_STATEMENTS_FAILURE:
-      return {
-        ...state,
-        loading: false, // Request completed
-        error: action.payload, // Update error with the failure message
-      };
+      return { ...state, loading: false, error: action.payload };
     default:
-      return state; // Return current state for any unknown action
+      return state;
   }
 };
-
-export default statementReducer;
+export default statementsReducer;

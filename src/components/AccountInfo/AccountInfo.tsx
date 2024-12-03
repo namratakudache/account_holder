@@ -100,7 +100,7 @@ const AccountInfo: React.FC = () => {
       {accountInfo?.items && accountInfo.items.length > 0 ? (
         <div className="account-info-section section-3">
           <p className="refresh">
-            Refresh <MdRefresh style={{ color: "#ffffff" }} />
+            {/* Refresh <MdRefresh style={{ color: "#ffffff" }} /> */}
           </p>
 
           {accountInfo.items.map((item: any, index: number) => {

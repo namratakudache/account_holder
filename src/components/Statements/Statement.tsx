@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import "./statement.css";
 import { RootState } from "../../store/store";
+
 import {
   fetchStatementsFailure,
   fetchStatementsRequest,
   fetchStatementsSuccess,
 } from "../../actions/statementActions";
+
+import "./statement.css";
 
 const Statements: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const Statements: React.FC = () => {
     const day = date.getDate();
     const month = date.toLocaleString("default", { month: "short" });
     const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
+    return `${day} ${month}`;
   };
 
   // Fetch statements for a specific account
@@ -105,28 +107,48 @@ const Statements: React.FC = () => {
     return `${day} ${month}`;
   };
 
+  // Define the function to get the latest statement
+  const getLatestStatement = (statementYear: any) => {
+    if (statementYear.months && statementYear.months.length > 0) {
+      // Make a copy of the array before sorting to prevent mutation
+      const monthsCopy = [...statementYear.months];
+      const latestStatement = monthsCopy.sort((a: any, b: any) => {
+        const dateA = new Date(a.cycle_closing_date).getTime();
+        const dateB = new Date(b.cycle_closing_date).getTime();
+        return dateB - dateA;
+      })[0]; // Select the latest one
+      return latestStatement;
+    }
+    return null;
+  };
+
   return (
     <div className="statements-full-container">
       <div className="statements-container">
-        {data?.map((statementYear: any, index: number) => (
-          <div key={index} className="statement-year">
-            {statementYear.months.map((statement: any) => (
-              <div
-                key={statement.statement.id}
-                className="statement"
-                onClick={() => handleStatementClick(statement)}
-              >
-                <p className="current-balance">
-                  INR {statement.current_balance || 0}
-                </p>
-                <p className="date-range">
-                  {formatDate(statement.cycle_opening_date)} to{" "}
-                  {formatDate(statement.cycle_closing_date)}
-                </p>
-              </div>
-            ))}
-          </div>
-        ))}
+        {Array.isArray(data) &&
+          data.map((statementYear: any, index: number) => {
+            const latestStatement = getLatestStatement(statementYear);
+            if (latestStatement) {
+              return (
+                <div key={index} className="statement-year">
+                  <div
+                    key={latestStatement.statement.id}
+                    className="statement"
+                    onClick={() => handleStatementClick(latestStatement)}
+                  >
+                    <p className="current-balance">
+                      INR {latestStatement.current_balance || 0}
+                    </p>
+                    <p className="date-range">
+                      {formatDate(latestStatement.cycle_opening_date)} to{" "}
+                      {formatDate(latestStatement.cycle_closing_date)}
+                    </p>
+                  </div>
+                </div>
+              );
+            }
+            return null; // No latest statement found for this year
+          })}
       </div>
 
       {selectedStatement && (
@@ -137,10 +159,9 @@ const Statements: React.FC = () => {
               <strong>Due date on </strong>
               {formatDate(selectedStatement.due_date) || "N/A"}
             </p>
-           
           </div>
           <div className="transaction-details">
-          <p>
+            <p>
               <strong>Transactions</strong>
             </p>
             {transactions ? (

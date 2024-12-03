@@ -1,17 +1,22 @@
 /* Sidebar Styling */
 .sidebar {
-  width: 200px;
-  height: 100vh;
-  background-color: #0b0b0b; /* Dark background color */
-  padding: 20px;
-  left: -250px;
+  /* border: 1px solid green; */
+  width: 250px; /* Default width */
+  height: calc(100vh - 50px); /* Adjust height to fit viewport */
+  background-color: #0b0b0b;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
   transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+  position: relative;
 }
 
 .sidebar.open {
-  left: 0; /* Slide into view */
+  left: 0; /* Slide into view when open */
+}
+
+.sidebar.collapsed {
+  width: 80px; /* Collapsed state width */
 }
 
 .sidebar-list {
@@ -25,33 +30,33 @@
 }
 
 .sidebar-link {
-  font-weight: 900; /* Bold font weight */
-  font-size: 18px; /* Custom font size */
-  color: #ebeaf0; /* Custom text color */
+  font-weight: 900; /* Bold font */
+  font-size: 18px; /* Text size */
+  color: #ebeaf0; /* Text color */
   text-decoration: none;
-  /* padding: 10px 20px;  */
   display: flex;
   align-items: center;
   border-radius: 4px;
+  padding: 10px 15px;
   transition: background-color 0.3s ease;
 }
 
 .sidebar-link:hover {
-  background-color: #34495e; /* Hover effect color */
+  background-color: #34495e; /* Hover background */
 }
 
 .icon {
-  margin-right: 15px;
-  font-size: 22px;
+  margin-right: 10px;
+  font-size: 22px; /* Adjusted icon size */
 }
 
-/* Hide menu text when sidebar is closed */
+/* Hide menu text when sidebar is collapsed */
 .sidebar-item p {
   display: none;
 }
 
 .sidebar.open .sidebar-item p {
-  display: inline; /* Show menu text when sidebar is open */
+  display: inline; /* Show text when sidebar is open */
 }
 
 /* CustomerApp Label */
@@ -70,7 +75,7 @@
 }
 
 .app-icon-img {
-  width: 30px; /* Adjust icon size */
+  width: 30px;
   height: 30px;
   margin-right: 10px;
 }
@@ -83,75 +88,51 @@
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-  top: 20%;
-  margin-left: 20px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* Pointer for better UX */
+  position: absolute; /* Fixed within sidebar */
+  top: 50%; /* Centered vertically */
+  right: -15px; /* Offset to the right */
+  transform: translateY(-50%); /* Center accurately */
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid #ccc;
+  transition: transform 0.3s ease;
+  z-index: 10; /* Ensures toggle is on top */
 }
 
 .icon-chevron {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-  margin-bottom: 500px;
-  border: 1px solid;
-  border-radius: 500px;
-  background-color: white;
-  border: none;
+  font-size: 16px;
+  color: black;
+  transition: transform 0.3s ease; /* Smooth flip */
 }
 
 .icon-chevron.rotated {
   transform: rotate(180deg); /* Rotate for open state */
 }
 
-/* Optional: Text color for paragraphs inside sidebar */
+/* Optional: Text color for labels */
 .menu-header-label-cust {
   color: rgba(193, 189, 189, 0.618);
-  font-size: x-large;
-  /* font-weight: bold; */
+  font-size: large;
   margin-left: 20px;
 }
-.sidebar-toggle {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer; /* Adds a pointer for better UX */
-  position: relative; /* Positioning to place it within the sidebar */
-  left: 100%;
-  transform: translateX(-50%); /* Centers the button accurately */
-  top: 40%;
-}
 
-.icon-chevron {
-  color: black; /* Icon color */
-  font-size: 16px; /* Adjusted size */
-  transition: transform 0.3s ease; /* Smooth transition */
-  margin-top: 10px;
-}
-
-.icon-chevron.flipped {
-  transform: scaleX(-1); /* Flips the icon horizontally */
-}
-.fa-sharp fa-solid {
-  color: #fff;
-  height: 30px;
-  transform: scale(1.2);
-}
-
-.sidebar-collapased {
+/* Sidebar Collapsed State */
+.sidebar-collapsed {
   width: 80px;
 }
+
+/* Footer Version */
 .version {
-  margin-top: 210%;
+  margin-top: auto; /* Push to the bottom */
   color: #878787;
-  /* font-width: 36px; */
+  font-size: 14px; /* Smaller text */
   border-top: 2px solid rgb(131, 129, 129);
-  /* border: 1px solid red; */
+  padding-top: 10px;
+  text-align: center; /* Center alignment */
 }
