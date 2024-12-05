@@ -1,0 +1,12 @@
+/* Add this CSS for the timeout warning message */
+.session-warning {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  

@@ -1,69 +1,78 @@
 .statements-full-container {
-  /* border: 2px solid red; */
-  width: 100%;
-  border: 1px solid red;
-  /* height: calc(100vh - 50px); */
-  overflow-x: auto; /* Ensure the container scrolls horizontally if necessary */
-}
-
-.statements-container {
-  border: 2px solid black;
-  display: flex;
-  flex-direction: row; /* Arrange statements in a row */
-  flex-wrap: nowrap; /* Prevent wrapping of statements */
   width: 100%;
   overflow-x: auto; /* Enable horizontal scrolling */
-  padding: 10px 0; /* Optional: space between the container and statements */
+  padding: 10px 0; /* Optional: Add space around the container */
 }
 
-.statement {
-  border: 1px solid blue;
-  width: 200px; /* Adjust width to your preference */
-  margin-right: 10px; /* Optional: spacing between statements */
-  flex-shrink: 0; /* Prevent shrinking of statement items */
+/* Carousel container */
+.statements-container {
   display: flex;
-  flex-direction: column; /* Align content vertically within each statement */
-  padding: 10px; /* Optional: add padding for better spacing */
+  flex-direction: row; /* Arrange items in a row */
+  flex-wrap: nowrap; /* Prevent wrapping */
+  padding: 10px 0; /* Space between items and container edges */
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
 }
 
+/* Individual statement/item */
+.statement {
+  border: 1px solid rgb(119, 119, 121);
+  width: 200px; /* Adjust width as necessary */
+  margin-right: 10px; /* Spacing between items */
+  flex-shrink: 0; /* Prevent shrinking */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #fff; /* Add a white background for clarity */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for individual items */
 .statement:hover {
   background-color: #949191;
   color: white;
 }
 
+/* Current balance section inside each statement */
 .current-balance {
   font-size: 18px;
   font-weight: bold;
 }
 
+/* Date range section inside each statement */
 .date-range {
   font-size: 14px;
+  color: #555;
 }
 
+/* Details section for each statement */
 .details1 {
-  width: 100%;
-  /* padding: 10px; */
-  /* max-width: 800px; */
   background-color: #59e0e0;
   color: aliceblue;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.statement-details p {
-  margin: 10px 0;
-}
-
+/* Transaction detail box styling */
 .transaction-detail {
   padding: 10px;
-  border: 2px solid red;
   border: 1px solid #f5f5f5;
   border-radius: 8px;
   margin: 5px 0;
+  background-color: #dee9e9;
+  display: flex;
+  justify-content: space-between;
 }
 
+/* Styling for each transaction inside the details */
 .transaction-detail strong {
   color: #555;
 }
@@ -72,7 +81,9 @@
   font-size: 14px;
 }
 
-.auth-error {
+/* Error styling */
+.auth-error,
+.error {
   color: red;
   font-size: 16px;
   font-weight: bold;
@@ -83,31 +94,65 @@
   color: #888;
 }
 
-.error {
-  color: red;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.transaction-detail {
-  background-color: #dee9e9;
-  display: flex;
-  /* padding: 20px; */
-  /* width: ; */
-  /* border: 1px solid red; */
-  /* width: 100% !important; */
-  width: 100%;
-
-  justify-content: space-between;
-}
-
+/* Styling for the main container for statements */
 .statement-details {
-  /* border: 1px solid red; */
   display: flex;
   width: 100%;
   padding: 30px 30px;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
-  border: 1px solid red;
+  /* Center content vertically if necessary */
+}
+
+/* Add styling for the carousel buttons (previous/next) if used */
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+/* Optional: Dots navigation (if using dots for carousel) */
+.slick-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5); /* Default dot color */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #007bff; /* Active dot color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .statements-container {
+    flex-direction: column; /* Stack items vertically on small screens */
+    overflow-x: hidden; /* Disable horizontal scroll on small screens */
+  }
+
+  .statement {
+    width: 90%; /* Reduce width for smaller screens */
+    margin-right: 0; /* Remove spacing between items */
+    margin-bottom: 15px; /* Add space between items */
+  }
 }

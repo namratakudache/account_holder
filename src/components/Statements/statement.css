@@ -1,34 +1,37 @@
+@import "swiper/css/navigation";
 .statements-full-container {
-  /* border: 2px solid red; */
   width: 100%;
-  /* border: 1px solid red; */
-  /* height: calc(100vh - 50px); */
-  overflow-x: auto;
+  overflow-x: hidden; /* Ensure smooth scroll */
+  padding: 20px;
 }
 
 .statements-container {
-  /* border: 2px solid black; */
   display: flex;
-  flex-direction: row; /* Arrange statements in a row */
-  flex-wrap: nowrap; /* Prevent wrapping of statements */
-  width: 100%;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  padding: 10px 0; /* Optional: space between the container and statements */
+  flex-direction: row;
+  overflow-x: auto;
+  scrollbar-width: thin; /* Show thin scrollbar for modern browsers */
+  /* border: 1px solid red; */
+}
+
+.statement-slide {
+  flex-shrink: 0;
+  margin-right: 10px;
 }
 
 .statement {
   border: 1px solid rgb(119, 119, 121);
-  width: 200px; /* Adjust width to your preference */
-  margin-right: 10px; /* Optional: spacing between statements */
-  flex-shrink: 0; /* Prevent shrinking of statement items */
+  width: 200px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
 }
 
 .statement:hover {
   background-color: #949191;
   color: white;
+  cursor: pointer;
 }
 
 .current-balance {
@@ -108,4 +111,42 @@
   /* align-items: center; */
   justify-content: center;
   /* border: 1px solid red; */
+}
+/* Styling the navigation arrows */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #2e2e2e; 
+  background-color: #fff; 
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  
+}
+
+/* Add hover effects */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #000;
+  color: #fff; /* Change color on hover */
+  cursor: pointer;
+}
+
+/* Adjust positioning of the arrows */
+.swiper-button-next {
+  right: 10px; /* Adjust right position */
+}
+
+.swiper-button-prev {
+  left: 10px; /* Adjust left position */
+}
+
+/* Optional: Hide arrows when disabled */
+.swiper-button-disabled {
+  opacity: 0.5; /* Make it transparent */
+  pointer-events: none; /* Disable interaction */
 }

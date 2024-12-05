@@ -1,8 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { RootState } from "../../store/store";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css"; // Import swiper CSS
+import "swiper/css/navigation"; // Import navigation CSS
+import "swiper/css/pagination"; // Import pagination CSS
 import {
   fetchStatementsFailure,
   fetchStatementsRequest,
@@ -10,6 +14,8 @@ import {
 } from "../../actions/statementActions";
 
 import "./statement.css";
+import { Navigation } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 
 const Statements: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,15 +25,14 @@ const Statements: React.FC = () => {
 
   const [authError, setAuthError] = useState(false);
   const [selectedStatement, setSelectedStatement] = useState<any>(null);
-  const [transactions, setTransactions] = useState<any>(null);
+  const [transactions, setTransactions] = useState<any[]>([]);
 
-  const formatDate = (dateString: string | undefined) => {
+  const formatDate = (dateString?: string) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-    const year = date.getFullYear();
-    return `${day} ${month}`;
+    return `${date.getDate()} ${date.toLocaleString("default", {
+      month: "short",
+    })}`;
   };
 
   // Fetch statements for a specific account
@@ -38,6 +43,7 @@ const Statements: React.FC = () => {
       return;
     }
 
+    dispatch(fetchStatementsRequest());
     try {
       const response = await axios.get(
         `https://sandbox-apiconnect.42cards.in/pismo-api/statements/v1/accounts/${accountId}/statements`,
@@ -49,9 +55,7 @@ const Statements: React.FC = () => {
       setAuthError(false);
     } catch (err: any) {
       dispatch(fetchStatementsFailure(err.message));
-      if (err.response?.status === 401) {
-        setAuthError(true);
-      }
+      if (err.response?.status === 401) setAuthError(true);
     }
   };
 
@@ -67,7 +71,6 @@ const Statements: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response.data.items); // Log to check the structure of items
       setTransactions(response.data.items || []);
     } catch (error) {
       console.error("Error fetching transactions:", error);
@@ -76,12 +79,22 @@ const Statements: React.FC = () => {
 
   const handleStatementClick = (statement: any) => {
     setSelectedStatement(statement);
-    const statementId = statement?.statement?.id;
-    if (statementId) {
-      fetchTransactionsForStatement(statementId);
+    if (statement?.statement?.id) {
+      fetchTransactionsForStatement(statement.statement.id);
     } else {
       console.error("Invalid Statement ID");
     }
+  };
+
+  const getLatestStatement = (statementYear: any) => {
+    if (statementYear?.months?.length > 0) {
+      return [...statementYear.months].sort(
+        (a: any, b: any) =>
+          new Date(b.cycle_closing_date).getTime() -
+          new Date(a.cycle_closing_date).getTime()
+      )[0];
+    }
+    return null;
   };
 
   useEffect(() => {
@@ -99,56 +112,46 @@ const Statements: React.FC = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const formtDate = (dateString: string | undefined) => {
-    if (!dateString) return "N/A";
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" }); 
-    return `${day} ${month}`;
-  };
-
-  // Define the function to get the latest statement
-  const getLatestStatement = (statementYear: any) => {
-    if (statementYear.months && statementYear.months.length > 0) {
-      // Make a copy of the array before sorting to prevent mutation
-      const monthsCopy = [...statementYear.months];
-      const latestStatement = monthsCopy.sort((a: any, b: any) => {
-        const dateA = new Date(a.cycle_closing_date).getTime();
-        const dateB = new Date(b.cycle_closing_date).getTime();
-        return dateB - dateA;
-      })[0]; // Select the latest one
-      return latestStatement;
-    }
-    return null;
-  };
-
   return (
     <div className="statements-full-container">
       <div className="statements-container">
-        {Array.isArray(data) &&
-          data.map((statementYear: any, index: number) => {
-            const latestStatement = getLatestStatement(statementYear);
-            if (latestStatement) {
+   
+        {Array.isArray(data) && (
+    
+          <Swiper
+            modules={[Navigation, Pagination]} // Add navigation and pagination modules
+            spaceBetween={10} // Space between slides
+            slidesPerView={4} // Number of items per view
+            navigation={true} // Enable navigation (arrows)
+            pagination={{ clickable: true }} // Enable pagination dots
+            scrollbar={{ draggable: true }} // Allow draggable scrollbar
+            loop={false} // Disable infinite looping (optional)
+          >
+            {data.map((statementYear: any, index: number) => {
+              const latestStatement = getLatestStatement(statementYear);
               return (
-                <div key={index} className="statement-year">
-                  <div
-                    key={latestStatement.statement.id}
-                    className="statement"
-                    onClick={() => handleStatementClick(latestStatement)}
-                  >
-                    <p className="current-balance">
-                      INR {latestStatement.current_balance || 0}
-                    </p>
-                    <p className="date-range">
-                      {formatDate(latestStatement.cycle_opening_date)} to{" "}
-                      {formatDate(latestStatement.cycle_closing_date)}
-                    </p>
-                  </div>
-                </div>
+                latestStatement && (
+                  <SwiperSlide key={index} className="statement-slide">
+                    <div
+                      className="statement"
+                      onClick={() => handleStatementClick(latestStatement)}
+                    >
+                      <p className="current-balance">
+                        INR {latestStatement.current_balance || 0}
+                      </p>
+                      <p className="date-range">
+                        {formatDate(latestStatement.cycle_opening_date)} to{" "}
+                        {formatDate(latestStatement.cycle_closing_date)}
+                      </p>
+                    </div>
+                  </SwiperSlide>
+                )
               );
-            }
-            return null; 
-          })}
+            })}
+          </Swiper>
+          
+
+        )}
       </div>
 
       {selectedStatement && (
@@ -164,31 +167,26 @@ const Statements: React.FC = () => {
             <p>
               <strong>Transactions</strong>
             </p>
-            {transactions ? (
-              transactions.length > 0 ? (
-                transactions.map((transaction: any, index: number) => (
-                  <div key={index} className="transaction-detail">
-                    <p>{formtDate(selectedStatement.cycle_closing_date)}</p>
-                    <div className="description">
-                      <p>{transaction.soft_descriptor || "N/A"}</p>
-                      <p>{transaction.processing_description}</p>
-                    </div>
-
-                    <p>
-                      <strong>
-                        INR{" "}
-                        {transaction.amount?.find(
-                          (amt: any) => amt.type === "PRINCIPAL"
-                        )?.value || "N/A"}
-                      </strong>
-                    </p>
+            {transactions.length > 0 ? (
+              transactions.map((transaction, index) => (
+                <div key={index} className="transaction-detail">
+                  <p>{formatDate(selectedStatement.cycle_closing_date)}</p>
+                  <div className="description">
+                    <p>{transaction.soft_descriptor || "N/A"}</p>
+                    <p>{transaction.processing_description}</p>
                   </div>
-                ))
-              ) : (
-                <p>No transactions found.</p>
-              )
+                  <p>
+                    <strong>
+                      INR{" "}
+                      {transaction.amount?.find(
+                        (amt: any) => amt.type === "PRINCIPAL"
+                      )?.value || "N/A"}
+                    </strong>
+                  </p>
+                </div>
+              ))
             ) : (
-              <p>Loading transactions...</p>
+              <p>No transactions found.</p>
             )}
           </div>
         </div>

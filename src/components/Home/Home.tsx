@@ -12,8 +12,9 @@ const Home: React.FC = () => {
       <div className="container">
         <Sidebar />
         <AccountInfo />
-        <Statements/>
+        <Statements />
       </div>
+ 
     </>
   );
 };
