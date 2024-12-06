@@ -1,4 +1,5 @@
 @import "swiper/css/navigation";
+
 .statements-full-container {
   width: 100%;
   overflow-x: hidden; /* Ensure smooth scroll */
@@ -112,6 +113,7 @@
   justify-content: center;
   /* border: 1px solid red; */
 }
+
 /* Styling the navigation arrows */
 .swiper-button-next,
 .swiper-button-prev {
@@ -125,7 +127,6 @@
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  
 }
 
 /* Add hover effects */
@@ -149,4 +150,67 @@
 .swiper-button-disabled {
   opacity: 0.5; /* Make it transparent */
   pointer-events: none; /* Disable interaction */
+}
+
+/* Media Queries for Mobile Responsiveness */
+
+/* Small devices (Mobile Phones) */
+@media (max-width: 768px) {
+  .statements-full-container {
+    padding: 10px; /* Less padding on smaller screens */
+  }
+
+  .statements-container {
+    padding: 5px; /* Adjust container padding */
+  }
+
+  .statement {
+    width: 100%; /* Make statements take up full width */
+    max-width: 180px; /* Restrict maximum width */
+    margin-bottom: 10px; /* Add some space between items */
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 40px; /* Smaller navigation buttons */
+    height: 40px;
+    font-size: 12px; /* Reduce font size */
+  }
+
+  .statement-details {
+    padding: 20px; /* Reduce padding for smaller screens */
+  }
+
+  .transaction-detail {
+    padding: 8px; /* Less padding on transaction details */
+  }
+}
+
+/* Extra small devices (Mobile Portrait) */
+@media (max-width: 480px) {
+  .statements-container {
+    flex-direction: column; /* Stack the items vertically */
+    overflow-x: hidden; /* Disable horizontal scrolling */
+  }
+
+  .statement {
+    width: 100%; /* Full width for each statement */
+    margin-bottom: 15px; /* Add more space between statements */
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 35px; /* Smaller buttons for very small devices */
+    height: 35px;
+    font-size: 10px; /* Reduce font size further */
+  }
+
+  .current-balance,
+  .date-range {
+    font-size: 16px; /* Adjust font size for mobile */
+  }
+
+  .statement-details {
+    padding: 15px; /* Less padding for extra small devices */
+  }
 }

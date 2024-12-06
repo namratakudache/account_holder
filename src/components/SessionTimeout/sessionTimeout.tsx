@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import "./sessionTimout.css"
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./sessionTimout.css";
 
 const SessionTimeout: React.FC = () => {
   const navigate = useNavigate(); // Replace useHistory with useNavigate
@@ -19,9 +19,9 @@ const SessionTimeout: React.FC = () => {
 
   // Function to handle session timeout
   const handleTimeout = () => {
-    alert('Your session has expired. Please log in again.');
+    alert("Your session has expired. Please log in again.");
     // Redirect to login page or perform any other session expiration action
-    navigate('/login'); // Replace history.push with navigate
+    navigate("/"); // Replace history.push with navigate
   };
 
   // Function to show the warning when time is close to expiration
@@ -32,7 +32,7 @@ const SessionTimeout: React.FC = () => {
   // Detect user activity
   useEffect(() => {
     // Add event listeners for user activity
-    const activityEvents = ['mousemove', 'keydown', 'click', 'scroll'];
+    const activityEvents = ["mousemove", "keydown", "click", "scroll"];
 
     activityEvents.forEach((event) => {
       window.addEventListener(event, resetTimer);
@@ -64,7 +64,11 @@ const SessionTimeout: React.FC = () => {
 
   return (
     <div>
-      {showWarning && <div className="session-warning">Your session will expire in 1 minute!</div>}
+      {showWarning && (
+        <div className="session-warning">
+          Your session will expire in 1 minute!
+        </div>
+      )}
     </div>
   );
 };

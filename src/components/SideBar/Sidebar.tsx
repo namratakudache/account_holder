@@ -50,7 +50,6 @@ const Sidebar: React.FC = () => {
               {isOpen && "Cards"}
             </Link>
           </li>
-          <p className="version">v4.1.1</p>
 
           {/* Sidebar Toggle Button */}
           <button className="sidebar-toggle" onClick={toggleSidebar}>
@@ -61,6 +60,7 @@ const Sidebar: React.FC = () => {
             ></i>
           </button>
         </ul>
+        <p className="version">v4.1.1</p>
       </div>
     </>
   );

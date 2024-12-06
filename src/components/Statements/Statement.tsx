@@ -109,6 +109,7 @@ const Statements: React.FC = () => {
   }, [dispatch]);
 
   if (authError) return <div>Please log in to view your statements.</div>;
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
