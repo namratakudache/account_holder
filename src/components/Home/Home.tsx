@@ -3,7 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import Sidebar from "../SideBar/Sidebar";
 import AccountInfo from "../AccountInfo/AccountInfo";
 import Statements from "../Statements/Statement";
-
+import Card from "../Card/Card";
 
 const Home: React.FC = () => {
   return (
@@ -13,8 +13,8 @@ const Home: React.FC = () => {
         <Sidebar />
         <AccountInfo />
         <Statements />
+       
       </div>
- 
     </>
   );
 };

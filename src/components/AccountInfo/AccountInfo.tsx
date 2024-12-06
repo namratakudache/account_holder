@@ -8,6 +8,8 @@ import {
   fetchAccountInfoFailure,
 } from "../../actions/accountActions";
 import "./accountInfo.css";
+import Card from "../Card/Card";
+// import Cards from "../Cards/cards";
 
 // Define the formatDate function as before
 const formatDate = (dateString: string) => {
@@ -96,6 +98,7 @@ const AccountInfo: React.FC = () => {
           <h2 className="limit">INR {accountInfo.available_limit}</h2>
         </div>
       )}
+
 
       {accountInfo?.items && accountInfo.items.length > 0 ? (
         <div className="account-info-section section-3">

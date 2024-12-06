@@ -45,11 +45,12 @@ const Sidebar: React.FC = () => {
             </Link>
           </li>
           <li className={`sidebar-item ${!isOpen ? "hidden" : ""}`}>
-            <Link to="/cards" className="sidebar-link">
-              <FaCreditCard className="icon" />
-              {isOpen && "Cards"}
-            </Link>
-          </li>
+  <Link to="/card" className="sidebar-link"> {/* Link to /card */}
+    <FaCreditCard className="icon" />
+    {isOpen && "Card"}
+  </Link>
+</li>
+
 
           {/* Sidebar Toggle Button */}
           <button className="sidebar-toggle" onClick={toggleSidebar}>
