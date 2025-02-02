@@ -99,7 +99,6 @@ const AccountInfo: React.FC = () => {
         </div>
       )}
 
-
       {accountInfo?.items && accountInfo.items.length > 0 ? (
         <div className="account-info-section section-3">
           <p className="refresh">
@@ -129,4 +128,5 @@ const AccountInfo: React.FC = () => {
   );
 };
 
-export default AccountInfo;
+export default AccountInfo
+;
